@@ -2,7 +2,7 @@
 Jane Wu
 jhwu@hmc.edu
 
-Math 143 Midterm Project Code
+Math 143 Final Project Code
 '''
 
 import numpy as np
@@ -97,7 +97,7 @@ def writeWAV(source_num, labels):
 	print "frames", n
 
 	source = [] # Single source only
-	jump = 30
+	jump = 50
 
 	for i in range(0,len(labels)-jump,jump): #For each window
 		# Find mean label
@@ -131,6 +131,8 @@ def main():
 	n_neighbors = 5
 	n_components = 2
 
+
+	# Default # neighbors is  max(n_samples/10 , 1)
 	print "Spectral embedding"
 	se = manifold.SpectralEmbedding()
 	print "Transforming"
@@ -139,8 +141,13 @@ def main():
 	t1 = time()
 	print "Time:", t1-t0
 
-	# Reduce dimensionality
-	Z = Z[:,:2]
+	# print "Isomap"
+	# se = manifold.Isomap()
+	# print "Transforming"
+	# t0 = time()
+	# Z = se.fit_transform(X)
+	# t1 = time()
+	# print "Time:", t1-t0
 
 	# K-means
 	print "K-mean"
@@ -158,13 +165,13 @@ def main():
 	# 	counts[y] += 1
 
 	# Write to files
-	# writeWAV(0, y.labels_)
-	# writeWAV(1, y.labels_)
+	writeWAV(0, y.labels_)
+	writeWAV(1, y.labels_)
 
-	color = y.labels_
-	plt.scatter(Z[:, 0], Z[:, 1], c=color, cmap=plt.cm.Spectral)
-	plt.title("SpectralEmbedding")
+	# color = y.labels_
+	# plt.scatter(Z[:, 0], Z[:, 1], c=color, cmap=plt.cm.Spectral)
+	# plt.title("SpectralEmbedding: Clip 1")
 
-	plt.show()
+	# plt.show()
 
 main()
